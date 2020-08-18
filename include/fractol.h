@@ -13,19 +13,22 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-// # define WIN_WIDTH	950
-// # define WIN_HEIGHT	800
-# define WIN_WIDTH	800
-# define WIN_HEIGHT	673
+# define WIN_WIDTH	1024
+# define WIN_HEIGHT	856
 # define WIN_TITLE	"fractol"
+
+# define NUM_THREADS	8
+# define SLICE_HEIGHT	WIN_HEIGHT / NUM_THREADS
 
 # define MENU_WIDTH		600
 # define MENU_HEIGHT	400
 # define MENU_BGCOLOR	0xaa000000
 # define MENU_TEXTCOLOR	0x00a0a0a0
 
+# define BAILOUT_INIT	32
+
 # define ITER_MIN	13
-# define ITER_MAX	1000
+# define ITER_MAX	2048
 # define ITER_INIT	128
 
 # define RATIO_MORE	1.077777
@@ -70,10 +73,16 @@ typedef struct	s_context {
 	t_fractal	*fractal;
 }				t_context;
 
+typedef struct	s_args {
+	t_context	*ctx;
+	int			from;
+	int			until;
+}				t_args;
+
 typedef void	(*t_handler)(int, t_context *);
 
 void			init_fractal(t_fractal *fractal, int id);
-void			draw_fractal(t_context *ctx, const t_fractal *fractal);
+void			draw_fractal(t_context *ctx);
 
 void			draw_menu(t_context *ctx);
 
@@ -86,6 +95,7 @@ int				color_bernstein(const t_fractal *fractal, t_tuple t);
 t_tuple			mandelbrot(const t_fractal *fractal, t_complex c);
 t_tuple			julia(const t_fractal *fractal, t_complex c);
 t_tuple			buffalo(const t_fractal *fractal, t_complex c);
+t_tuple			mandelbrot_cos(const t_fractal *fractal, t_complex c);
 t_tuple			perpendicular_celtic(const t_fractal *fractal, t_complex c);
 t_tuple			perpendicular_mandelbrot(const t_fractal *fractal, t_complex c);
 t_tuple			burning_ship(const t_fractal *fractal, t_complex c);

@@ -31,7 +31,7 @@ int		on_mousemove(int x, int y, t_context *ctx)
 		JULIA_RE - (x * JULIA_RE) / WIN_WIDTH,
 		JULIA_IM - (3 * y * JULIA_IM) / WIN_HEIGHT
 	};
-	draw_fractal(ctx, ctx->fractal);
+	draw_fractal(ctx);
 	return (0);
 }
 
@@ -46,7 +46,7 @@ int		on_mousedown(int button, int x, int y, t_context *ctx)
 	z = button == MOUSE_SCROLL_UP ? RATIO_MORE : RATIO_LESS;
 	ctx->fractal->maxiter += i;
 	zoom(ctx->fractal, z, x, y);
-	draw_fractal(ctx, ctx->fractal);
+	draw_fractal(ctx);
 	return (0);
 }
 
@@ -102,12 +102,12 @@ void	on_keydown(int key, t_context *ctx)
 		[ARROW_DOWN] = set_pan,
 		[ARROW_LEFT] = set_pan,
 		[ARROW_RIGHT] = set_pan,
-		[109] = set_cmap
+		[C] = set_cmap
 	};
 
 	if (key <= MAX_KEYS && (handler = handlers[key]))
 	{
 		(*handler)(key, ctx);
-		draw_fractal(ctx, ctx->fractal);
+		draw_fractal(ctx);
 	}
 }

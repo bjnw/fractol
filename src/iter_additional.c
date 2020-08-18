@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   iter.c                                             :+:      :+:    :+:   */
+/*   iter_additional.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ourgot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,74 +14,25 @@
 
 #include "fractol.h"
 
-t_tuple		mandelbrot(const t_fractal *fractal, t_complex c)
+/*
+** z = c + pi * cos(z)
+*/
+
+t_tuple		mandelbrot_cos(const t_fractal *fractal, t_complex c)
 {
 	t_complex	z;
-	double		zrsq;
-	double		zisq;
 	int			n;
 
 	z = (t_complex){0, 0};
 	n = 0;
 	while (n < fractal->maxiter)
 	{
-		zrsq = z.re * z.re;
-		zisq = z.im * z.im;
 		z = (t_complex){
-			zrsq - zisq + c.re,
-			2.0 * z.re * z.im + c.im
+			M_PI * cos(z.re) * cosh(z.im) + c.re,
+			M_PI * -sin(z.re) * sinh(z.im) + c.im
 		};
-		if (zrsq + zisq > fractal->bailout)
-			return ((t_tuple){n, zrsq + zisq});
-		n++;
-	}
-	return ((t_tuple){0, 0});
-}
-
-t_tuple		julia(const t_fractal *fractal, t_complex c)
-{
-	const t_complex	k = fractal->k;
-	t_complex		z;
-	double			zrsq;
-	double			zisq;
-	int				n;
-
-	z = c;
-	n = 0;
-	while (n < fractal->maxiter)
-	{
-		zrsq = z.re * z.re;
-		zisq = z.im * z.im;
-		z = (t_complex){
-			zrsq - zisq + k.re,
-			2.0 * z.re * z.im + k.im
-		};
-		if (zrsq + zisq > fractal->bailout)
-			return ((t_tuple){n, zrsq + zisq});
-		n++;
-	}
-	return ((t_tuple){0, 0});
-}
-
-t_tuple		buffalo(const t_fractal *fractal, t_complex c)
-{
-	t_complex	z;
-	double		zrsq;
-	double		zisq;
-	int			n;
-
-	z = (t_complex){0, 0};
-	n = 0;
-	while (n < fractal->maxiter)
-	{
-		zrsq = z.re * z.re;
-		zisq = z.im * z.im;
-		z = (t_complex){
-			fabs(zrsq - zisq) + c.re,
-			-2.0 * fabs(z.re * z.im) + c.im
-		};
-		if (zrsq + zisq > fractal->bailout)
-			return ((t_tuple){n, zrsq + zisq});
+		if (fabs(z.im) >= fractal->bailout)
+			return ((t_tuple){n, z.im});
 		n++;
 	}
 	return ((t_tuple){0, 0});
@@ -104,7 +55,7 @@ t_tuple		perpendicular_celtic(const t_fractal *fractal, t_complex c)
 			fabs(zrsq - zisq) + c.re,
 			-2.0 * fabs(z.re) * z.im + c.im
 		};
-		if (zrsq + zisq > fractal->bailout)
+		if (zrsq + zisq >= fractal->bailout)
 			return ((t_tuple){n, zrsq + zisq});
 		n++;
 	}
@@ -128,7 +79,7 @@ t_tuple		perpendicular_mandelbrot(const t_fractal *fractal, t_complex c)
 			zrsq - zisq + c.re,
 			-2.0 * fabs(z.re) * z.im + c.im
 		};
-		if (zrsq + zisq > fractal->bailout)
+		if (zrsq + zisq >= fractal->bailout)
 			return ((t_tuple){n, zrsq + zisq});
 		n++;
 	}
@@ -152,7 +103,7 @@ t_tuple		burning_ship(const t_fractal *fractal, t_complex c)
 			zrsq - zisq + c.re,
 			-2.0 * fabs(z.re * z.im) + c.im
 		};
-		if (zrsq + zisq > fractal->bailout)
+		if (zrsq + zisq >= fractal->bailout)
 			return ((t_tuple){n, zrsq + zisq});
 		n++;
 	}

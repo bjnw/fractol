@@ -1,6 +1,6 @@
 NAME := fractol
 BUILD_DIR := build
-SRC := main.c hook.c draw.c color.c iter.c viewport.c menu.c
+SRC := main.c hook.c draw.c color.c iter_mandatory.c iter_additional.c viewport.c menu.c
 OBJ := $(SRC:%.c=$(BUILD_DIR)/%.o)
 DEP := $(OBJ:%.o=%.d)
 

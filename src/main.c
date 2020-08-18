@@ -19,7 +19,6 @@
 #include "mlx.h"
 
 // [ ] menu
-// [ ] multi-threading implementation.
 
 static void	show_usage(const char *msg)
 {
@@ -66,18 +65,19 @@ static void	init_context(t_context *ctx, t_fractal *fractal)
 void		init_fractal(t_fractal *fractal, int id)
 {
 	static const t_fractal	params[] = {
-		{0, 4, -2.5, 1.0, -1.5, 1.5, 0, 0, {0, 0}, 0, mandelbrot},
-		{0, 9, -2.2, 2.2, -1.8, 1.8, 0, 0, {JULIA_RE, JULIA_IM}, 0, julia},
-		{0, 4, -2.5, 1.0, -0.7, 2.1, 0, 0, {0, 0}, 0, buffalo},
-		{0, 4, -2.5, 1.0, -1.8, 1.8, 0, 0, {0, 0}, 0, perpendicular_celtic},
-		{0, 4, -2.4, 1.6, -1.8, 1.8, 0, 0, {0, 0}, 0, perpendicular_mandelbrot},
-		{0, 4, -2.6, 1.4, -1.0, 2.3, 0, 0, {0, 0}, 0, burning_ship}
+		{0, 0, -2.5, 1.0, -1.5, 1.5, 0, 0, {0, 0}, 0, mandelbrot},
+		{0, 0, -2.2, 2.2, -1.8, 1.8, 0, 0, {JULIA_RE, JULIA_IM}, 0, julia},
+		{0, 0, -2.5, 1.0, -0.7, 2.1, 0, 0, {0, 0}, 0, buffalo},
+		{0, 0, -2.5, 1.0, -1.8, 1.8, 0, 0, {0, 0}, 0, perpendicular_celtic},
+		{0, 0, -2.4, 1.6, -1.8, 1.8, 0, 0, {0, 0}, 0, perpendicular_mandelbrot},
+		{0, 0, -2.6, 1.4, -1.0, 2.3, 0, 0, {0, 0}, 0, burning_ship}
 	};
 
 	*fractal = params[id];
 	fractal->maxiter = ITER_INIT;
-	fractal->dx = (fractal->xmax - fractal->xmin) / WIN_WIDTH;
-	fractal->dy = (fractal->ymax - fractal->ymin) / WIN_HEIGHT;
+	fractal->bailout = BAILOUT_INIT;
+	fractal->dx = (fractal->xmax - fractal->xmin) / (WIN_WIDTH - 1);
+	fractal->dy = (fractal->ymax - fractal->ymin) / (WIN_HEIGHT - 1);
 	fractal->cmap = color_bernstein;
 }
 
@@ -90,7 +90,7 @@ int			main(int argc, const char **argv)
 	id = read_input(argc, argv);
 	init_fractal(&fractal, id);
 	init_context(&ctx, &fractal);
-	draw_fractal(&ctx, &fractal);
+	draw_fractal(&ctx);
 	mlx_loop(ctx.mlx);
 	return (EXIT_SUCCESS);
 }

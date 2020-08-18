@@ -22,7 +22,7 @@ void	pan(t_fractal *fractal, double cx, double cy)
 	fractal->ymin -= di;
 	fractal->ymax -= di;
 }
-
+#include <stdio.h>
 void	zoom(t_fractal *fractal, double zoom, double cx, double cy)
 {
 	const double dr = cx * fractal->dx * (1 - 1 / zoom);
@@ -34,4 +34,6 @@ void	zoom(t_fractal *fractal, double zoom, double cx, double cy)
 	fractal->ymax -= di;
 	fractal->dx /= zoom;
 	fractal->dy /= zoom;
+	printf("%f\n", fractal->dy);
+	printf("%f\n", fractal->dx);
 }

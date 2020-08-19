@@ -64,18 +64,17 @@ static void	init_context(t_context *ctx, t_fractal *fractal)
 
 void		init_fractal(t_fractal *fractal, int id)
 {
-	static const t_fractal	params[] = {
-		{0, 0, -2.5, 1.0, -1.5, 1.5, 0, 0, {0, 0}, 0, mandelbrot},
-		{0, 0, -2.2, 2.2, -1.8, 1.8, 0, 0, {JULIA_RE, JULIA_IM}, 0, julia},
-		{0, 0, -2.5, 1.0, -0.7, 2.1, 0, 0, {0, 0}, 0, buffalo},
-		{0, 0, -2.5, 1.0, -1.8, 1.8, 0, 0, {0, 0}, 0, perpendicular_celtic},
-		{0, 0, -2.4, 1.6, -1.8, 1.8, 0, 0, {0, 0}, 0, perpendicular_mandelbrot},
-		{0, 0, -2.6, 1.4, -1.0, 2.3, 0, 0, {0, 0}, 0, burning_ship}
+	static const t_fractal	attrs[] = {
+		{0, -2.5, 1.0, -1.5, 1.5, 0, 0, {0, 0}, 0, mandelbrot},
+		{0, -2.2, 2.2, -1.8, 1.8, 0, 0, {JULIA_RE, JULIA_IM}, 0, julia},
+		{0, -2.5, 1.0, -0.7, 2.1, 0, 0, {0, 0}, 0, buffalo},
+		{0, -2.5, 1.0, -1.8, 1.8, 0, 0, {0, 0}, 0, perpendicular_celtic},
+		{0, -2.4, 1.6, -1.8, 1.8, 0, 0, {0, 0}, 0, perpendicular_mandelbrot},
+		{0, -2.6, 1.4, -1.0, 2.3, 0, 0, {0, 0}, 0, burning_ship}
 	};
 
-	*fractal = params[id];
-	fractal->maxiter = ITER_INIT;
-	fractal->bailout = BAILOUT_INIT;
+	*fractal = attrs[id];
+	fractal->maxiter = ITER_DEFAULT;
 	fractal->dx = (fractal->xmax - fractal->xmin) / (WIN_WIDTH - 1);
 	fractal->dy = (fractal->ymax - fractal->ymin) / (WIN_HEIGHT - 1);
 	fractal->cmap = color_bernstein;

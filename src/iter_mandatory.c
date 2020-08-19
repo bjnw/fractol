@@ -31,7 +31,7 @@ t_tuple		mandelbrot(const t_fractal *fractal, t_complex c)
 			zrsq - zisq + c.re,
 			2.0 * z.re * z.im + c.im
 		};
-		if (zrsq + zisq >= fractal->bailout)
+		if (zrsq + zisq >= BAILOUT)
 			return ((t_tuple){n, zrsq + zisq});
 		n++;
 	}
@@ -56,7 +56,7 @@ t_tuple		julia(const t_fractal *fractal, t_complex c)
 			zrsq - zisq + k.re,
 			2.0 * z.re * z.im + k.im
 		};
-		if (zrsq + zisq >= fractal->bailout)
+		if (zrsq + zisq >= BAILOUT)
 			return ((t_tuple){n, zrsq + zisq});
 		n++;
 	}
@@ -80,7 +80,7 @@ t_tuple		buffalo(const t_fractal *fractal, t_complex c)
 			fabs(zrsq - zisq) + c.re,
 			-2.0 * fabs(z.re * z.im) + c.im
 		};
-		if (zrsq + zisq >= fractal->bailout)
+		if (zrsq + zisq >= BAILOUT)
 			return ((t_tuple){n, zrsq + zisq});
 		n++;
 	}

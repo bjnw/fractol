@@ -58,7 +58,7 @@ void	set_fractal(int key, t_context *ctx)
 void	set_iter(int key, t_context *ctx)
 {
 	if (key == KEY_0)
-		ctx->fractal->maxiter = ITER_INIT;
+		ctx->fractal->maxiter = ITER_DEFAULT;
 	else if (key == PLUS && ctx->fractal->maxiter < ITER_MAX)
 		ctx->fractal->maxiter *= RATIO_MORE;
 	else if (key == MINUS && ctx->fractal->maxiter > ITER_MIN)

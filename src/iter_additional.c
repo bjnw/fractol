@@ -31,7 +31,7 @@ t_tuple		mandelbrot_cos(const t_fractal *fractal, t_complex c)
 			M_PI * cos(z.re) * cosh(z.im) + c.re,
 			M_PI * -sin(z.re) * sinh(z.im) + c.im
 		};
-		if (fabs(z.im) >= fractal->bailout)
+		if (fabs(z.im) >= BAILOUT)
 			return ((t_tuple){n, z.im});
 		n++;
 	}
@@ -55,7 +55,7 @@ t_tuple		perpendicular_celtic(const t_fractal *fractal, t_complex c)
 			fabs(zrsq - zisq) + c.re,
 			-2.0 * fabs(z.re) * z.im + c.im
 		};
-		if (zrsq + zisq >= fractal->bailout)
+		if (zrsq + zisq >= BAILOUT)
 			return ((t_tuple){n, zrsq + zisq});
 		n++;
 	}
@@ -79,7 +79,7 @@ t_tuple		perpendicular_mandelbrot(const t_fractal *fractal, t_complex c)
 			zrsq - zisq + c.re,
 			-2.0 * fabs(z.re) * z.im + c.im
 		};
-		if (zrsq + zisq >= fractal->bailout)
+		if (zrsq + zisq >= BAILOUT)
 			return ((t_tuple){n, zrsq + zisq});
 		n++;
 	}
@@ -103,7 +103,7 @@ t_tuple		burning_ship(const t_fractal *fractal, t_complex c)
 			zrsq - zisq + c.re,
 			-2.0 * fabs(z.re * z.im) + c.im
 		};
-		if (zrsq + zisq >= fractal->bailout)
+		if (zrsq + zisq >= BAILOUT)
 			return ((t_tuple){n, zrsq + zisq});
 		n++;
 	}

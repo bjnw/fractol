@@ -25,17 +25,16 @@
 # define MENU_BGCOLOR	0xaa000000
 # define MENU_TEXTCOLOR	0x00a0a0a0
 
-# define BAILOUT_INIT	32
-
-# define ITER_MIN	13
-# define ITER_MAX	2048
-# define ITER_INIT	128
-
-# define RATIO_MORE	1.077777
-# define RATIO_LESS	0.927835
+# define BAILOUT		32
+# define ITER_MIN		13
+# define ITER_MAX		2048
+# define ITER_DEFAULT	128
 
 # define JULIA_RE	-0.702693
 # define JULIA_IM	-0.384201
+
+# define RATIO_MORE	1.077777
+# define RATIO_LESS	0.927835
 
 typedef struct	s_complex {
 	double		re;
@@ -50,7 +49,6 @@ typedef struct	s_tuple {
 typedef struct s_fractal	t_fractal;
 struct			s_fractal {
 	int			maxiter;
-	int			bailout;
 	double		xmin;
 	double		xmax;
 	double		ymin;

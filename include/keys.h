@@ -36,10 +36,17 @@
 # define ESC				53
 # define SPACE				49
 # define RETURN				36
-# define C					8
-# define I					34
-# define M					46
-# define P					35
+# define PLUS				24
+# define MINUS				27
+
+# define BRACKET_LEFT		33
+# define BRACKET_RIGHT		30
+
+# define KEY_C				8
+# define KEY_I				34
+# define KEY_M				46
+# define KEY_P				35
+
 # define KEY_0				29
 # define KEY_1				18
 # define KEY_2				19
@@ -50,8 +57,6 @@
 # define KEY_7				26
 # define KEY_8				28
 # define KEY_9				25
-# define PLUS				24
-# define MINUS				27
 
 # define MAX_KEYS			127
 

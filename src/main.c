@@ -18,8 +18,6 @@
 #include "libft.h"
 #include "mlx.h"
 
-// [ ] menu
-
 static void	show_usage(const char *msg)
 {
 	if (msg)
@@ -31,7 +29,8 @@ static void	show_usage(const char *msg)
 			"3 - cosine mandelbrot\n"
 			"4 - perpendicular mandelbrot\n"
 			"5 - perpendicular celtic\n"
-			"6 - burning ship\n");
+			"6 - burning ship\n"
+			"7 - ascii mandelbrot\n");
 }
 
 static int	read_input(int argc, const char **argv)
@@ -42,18 +41,22 @@ static int	read_input(int argc, const char **argv)
 		show_usage("error: not enough arguments");
 	if (ft_strlen(argv[1]) != 1)
 		show_usage("error: invalid fractal id");
-	id = *argv[1];
-	if (id < '0' || id > '5')
+	id = *argv[1] & ~060;
+	if (id < MANDELBROT || id > ASCII_MANDELBROT)
 		show_usage("error: invalid fractal id");
-	return (id & ~060);
+	return (id);
 }
 
 static void	init_context(t_context *ctx, t_fractal *fractal)
 {
 	ft_memset(ctx, 0, sizeof(t_context));
 	ctx->mlx = mlx_init();
+	if (!ctx->mlx)
+		panic("error: mlx_init");
 	ctx->win = mlx_new_window(ctx->mlx, WIN_WIDTH, WIN_HEIGHT, WIN_TITLE);
 	ctx->data = mlx_new_image(ctx->mlx, WIN_WIDTH, WIN_HEIGHT);
+	if (!ctx->data)
+		panic("error: mlx_new_image");
 	ctx->addr = mlx_get_data_addr(ctx->data, &ctx->bpp,
 			&ctx->linesize, &ctx->endian);
 	ctx->fractal = fractal;
@@ -77,8 +80,8 @@ void		init_fractal(t_fractal *fractal, int id)
 
 	*fractal = attrs[id];
 	fractal->maxiter = ITER_DEFAULT;
-	fractal->dx = (fractal->xmax - fractal->xmin) / (WIN_WIDTH - 1);
-	fractal->dy = (fractal->ymax - fractal->ymin) / (WIN_HEIGHT - 1);
+	fractal->dx = (fractal->xmax - fractal->xmin) / WIN_WIDTH;
+	fractal->dy = (fractal->ymax - fractal->ymin) / WIN_HEIGHT;
 	fractal->cmap = fractal->iter == cosine_mandelbrot ?
 		cmap_sepia : cmap_bernstein;
 }
@@ -88,16 +91,19 @@ int			main(int argc, const char **argv)
 	t_context	ctx;
 	t_fractal	fractal;
 	int			id;
+	bool		ascii;
 
 	id = read_input(argc, argv);
-	// if (id == FRACTAL_ASCII)
-	// {
-	// 	draw_ascii();
-	// 	return (EXIT_SUCCESS);
-	// }
+	if ((ascii = id == ASCII_MANDELBROT))
+		id = 0;
 	init_fractal(&fractal, id);
-	init_context(&ctx, &fractal);
-	draw_fractal(&ctx);
-	mlx_loop(ctx.mlx);
+	if (ascii)
+		draw_ascii(&fractal);
+	else
+	{
+		init_context(&ctx, &fractal);
+		draw_fractal(&ctx);
+		mlx_loop(ctx.mlx);
+	}
 	return (EXIT_SUCCESS);
 }

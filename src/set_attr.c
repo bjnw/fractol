@@ -18,7 +18,18 @@
 
 void	set_fractal(int key, t_context *ctx)
 {
-	init_fractal(ctx->fractal, key - KEY_1);
+	static int	id;
+	static int	last;
+
+	if (key == BRACKET_LEFT && id > MANDELBROT)
+		id--;
+	else if (key == BRACKET_RIGHT && id < BURNING_SHIP)
+		id++;
+	if (last != id)
+	{
+		last = id;
+		init_fractal(ctx->fractal, id);
+	}
 }
 
 void	set_iter(int key, t_context *ctx)

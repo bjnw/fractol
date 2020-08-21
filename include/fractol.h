@@ -14,7 +14,7 @@
 # define FRACTOL_H
 
 # define WIN_WIDTH	1024
-# define WIN_HEIGHT	856
+# define WIN_HEIGHT	857
 # define WIN_TITLE	"fractol"
 
 # define NUM_THREADS	8
@@ -35,6 +35,17 @@
 
 # define RATIO_MORE	1.077777
 # define RATIO_LESS	0.927835
+
+enum {
+	MANDELBROT = 0,
+	JULIA,
+	BUFFALO,
+	COSINE_MANDELBROT,
+	PERPENDICULAR_MANDELBROT,
+	PERPENDICULAR_CELTIC,
+	BURNING_SHIP,
+	ASCII_MANDELBROT
+};
 
 typedef struct	s_complex {
 	double		re;
@@ -83,6 +94,7 @@ typedef void	*(*t_routine)(void *);
 
 void			init_fractal(t_fractal *fractal, int id);
 void			draw_fractal(t_context *ctx);
+void			draw_ascii(t_fractal *fractal);
 
 void			draw_menu(t_context *ctx);
 

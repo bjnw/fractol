@@ -47,23 +47,17 @@ void	on_keydown(int key, t_context *ctx)
 {
 	t_handler				handler;
 	static const t_handler	handlers[MAX_KEYS] = {
-		[ESC] = unload,
-		[KEY_1] = set_fractal,
-		[KEY_2] = set_fractal,
-		[KEY_3] = set_fractal,
-		[KEY_4] = set_fractal,
-		[KEY_5] = set_fractal,
-		[KEY_6] = set_fractal,
-		[KEY_7] = set_fractal,
-		[KEY_8] = set_fractal,
+		[BRACKET_LEFT] = set_fractal,
+		[BRACKET_RIGHT] = set_fractal,
 		[KEY_0] = set_iter,
 		[PLUS] = set_iter,
 		[MINUS] = set_iter,
+		[KEY_C] = set_cmap,
 		[ARROW_UP] = set_pan,
 		[ARROW_DOWN] = set_pan,
 		[ARROW_LEFT] = set_pan,
 		[ARROW_RIGHT] = set_pan,
-		[C] = set_cmap
+		[ESC] = unload
 	};
 
 	if (key <= MAX_KEYS && (handler = handlers[key]))

@@ -28,9 +28,10 @@ static void	show_usage(const char *msg)
 			"0 - mandelbrot\n"
 			"1 - julia\n"
 			"2 - buffalo\n"
-			"3 - perpendicular celtic\n"
+			"3 - cosine mandelbrot\n"
 			"4 - perpendicular mandelbrot\n"
-			"5 - burning ship\n");
+			"5 - perpendicular celtic\n"
+			"6 - burning ship\n");
 }
 
 static int	read_input(int argc, const char **argv)
@@ -68,8 +69,9 @@ void		init_fractal(t_fractal *fractal, int id)
 		{0, -2.5, 1.0, -1.5, 1.5, 0, 0, {0, 0}, 0, mandelbrot},
 		{0, -2.2, 2.2, -1.8, 1.8, 0, 0, {JULIA_RE, JULIA_IM}, 0, julia},
 		{0, -2.5, 1.0, -0.7, 2.1, 0, 0, {0, 0}, 0, buffalo},
-		{0, -2.5, 1.0, -1.8, 1.8, 0, 0, {0, 0}, 0, perpendicular_celtic},
+		{0, -1.6, 1.1, -1.2, 1.2, 0, 0, {0, 0}, 0, cosine_mandelbrot},
 		{0, -2.4, 1.6, -1.8, 1.8, 0, 0, {0, 0}, 0, perpendicular_mandelbrot},
+		{0, -2.5, 1.0, -1.8, 1.8, 0, 0, {0, 0}, 0, perpendicular_celtic},
 		{0, -2.6, 1.4, -1.0, 2.3, 0, 0, {0, 0}, 0, burning_ship}
 	};
 
@@ -77,7 +79,8 @@ void		init_fractal(t_fractal *fractal, int id)
 	fractal->maxiter = ITER_DEFAULT;
 	fractal->dx = (fractal->xmax - fractal->xmin) / (WIN_WIDTH - 1);
 	fractal->dy = (fractal->ymax - fractal->ymin) / (WIN_HEIGHT - 1);
-	fractal->cmap = color_bernstein;
+	fractal->cmap = fractal->iter == cosine_mandelbrot ?
+		cmap_sepia : cmap_bernstein;
 }
 
 int			main(int argc, const char **argv)
@@ -87,6 +90,11 @@ int			main(int argc, const char **argv)
 	int			id;
 
 	id = read_input(argc, argv);
+	// if (id == FRACTAL_ASCII)
+	// {
+	// 	draw_ascii();
+	// 	return (EXIT_SUCCESS);
+	// }
 	init_fractal(&fractal, id);
 	init_context(&ctx, &fractal);
 	draw_fractal(&ctx);

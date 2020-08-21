@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hooks.c                                            :+:      :+:    :+:   */
+/*   event.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ourgot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -15,13 +15,6 @@
 #include "fractol.h"
 #include "keys.h"
 #include "mlx.h"
-
-void	unload(int key, t_context *ctx)
-{
-	(void)key;
-	(void)ctx;
-	exit(EXIT_SUCCESS);
-}
 
 int		on_mousemove(int x, int y, t_context *ctx)
 {
@@ -50,40 +43,6 @@ int		on_mousedown(int button, int x, int y, t_context *ctx)
 	return (0);
 }
 
-void	set_fractal(int key, t_context *ctx)
-{
-	init_fractal(ctx->fractal, key - KEY_1);
-}
-
-void	set_iter(int key, t_context *ctx)
-{
-	if (key == KEY_0)
-		ctx->fractal->maxiter = ITER_DEFAULT;
-	else if (key == PLUS && ctx->fractal->maxiter < ITER_MAX)
-		ctx->fractal->maxiter *= RATIO_MORE;
-	else if (key == MINUS && ctx->fractal->maxiter > ITER_MIN)
-		ctx->fractal->maxiter *= RATIO_LESS;
-}
-
-void	set_pan(int key, t_context *ctx)
-{
-	if (key == ARROW_UP)
-		pan(ctx->fractal, 0, -10);
-	else if (key == ARROW_DOWN)
-		pan(ctx->fractal, 0, 10);
-	else if (key == ARROW_LEFT)
-		pan(ctx->fractal, -10, 0);
-	else if (key == ARROW_RIGHT)
-		pan(ctx->fractal, 10, 0);
-}
-
-void	set_cmap(int key, t_context *ctx)
-{
-	(void)key;
-	ctx->fractal->cmap = ctx->fractal->cmap == color_sine ?
-		color_bernstein : color_sine;
-}
-
 void	on_keydown(int key, t_context *ctx)
 {
 	t_handler				handler;
@@ -95,6 +54,8 @@ void	on_keydown(int key, t_context *ctx)
 		[KEY_4] = set_fractal,
 		[KEY_5] = set_fractal,
 		[KEY_6] = set_fractal,
+		[KEY_7] = set_fractal,
+		[KEY_8] = set_fractal,
 		[KEY_0] = set_iter,
 		[PLUS] = set_iter,
 		[MINUS] = set_iter,
@@ -110,4 +71,11 @@ void	on_keydown(int key, t_context *ctx)
 		(*handler)(key, ctx);
 		draw_fractal(ctx);
 	}
+}
+
+void	unload(int key, t_context *ctx)
+{
+	(void)key;
+	(void)ctx;
+	exit(EXIT_SUCCESS);
 }

@@ -18,7 +18,7 @@
 ** z = c + pi * cos(z)
 */
 
-t_tuple		mandelbrot_cos(const t_fractal *fractal, t_complex c)
+t_tuple		cosine_mandelbrot(const t_fractal *fractal, t_complex c)
 {
 	t_complex	z;
 	int			n;

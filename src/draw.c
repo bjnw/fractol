@@ -63,7 +63,7 @@ void		draw_fractal(t_context *ctx)
 		args[n].from = SLICE_HEIGHT * n;
 		args[n].until = SLICE_HEIGHT * (n + 1);
 		if (pthread_create(&threads[n], NULL,
-					(void *(*)(void *))draw_part, &args[n]))
+				(t_routine)draw_part, &args[n]))
 			panic("error: threads");
 	}
 	n = NUM_THREADS;

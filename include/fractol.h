@@ -78,6 +78,8 @@ typedef struct	s_args {
 }				t_args;
 
 typedef void	(*t_handler)(int, t_context *);
+typedef int		(*t_cmap)(const t_fractal *, t_tuple);
+typedef void	*(*t_routine)(void *);
 
 void			init_fractal(t_fractal *fractal, int id);
 void			draw_fractal(t_context *ctx);
@@ -87,20 +89,26 @@ void			draw_menu(t_context *ctx);
 void			pan(t_fractal *fractal, double cx, double cy);
 void			zoom(t_fractal *fractal, double zoom, double cx, double cy);
 
-int				color_sine(const t_fractal *fractal, t_tuple t);
-int				color_bernstein(const t_fractal *fractal, t_tuple t);
+int				cmap_bernstein(const t_fractal *fractal, t_tuple t);
+int				cmap_sine(const t_fractal *fractal, t_tuple t);
+int				cmap_sepia(const t_fractal *fractal, t_tuple t);
 
 t_tuple			mandelbrot(const t_fractal *fractal, t_complex c);
 t_tuple			julia(const t_fractal *fractal, t_complex c);
 t_tuple			buffalo(const t_fractal *fractal, t_complex c);
-t_tuple			mandelbrot_cos(const t_fractal *fractal, t_complex c);
-t_tuple			perpendicular_celtic(const t_fractal *fractal, t_complex c);
+t_tuple			cosine_mandelbrot(const t_fractal *fractal, t_complex c);
 t_tuple			perpendicular_mandelbrot(const t_fractal *fractal, t_complex c);
+t_tuple			perpendicular_celtic(const t_fractal *fractal, t_complex c);
 t_tuple			burning_ship(const t_fractal *fractal, t_complex c);
 
-void			on_keydown(int key, t_context *ctx);
+void			set_fractal(int key, t_context *ctx);
+void			set_iter(int key, t_context *ctx);
+void			set_pan(int key, t_context *ctx);
+void			set_cmap(int key, t_context *ctx);
+
 int				on_mousedown(int button, int x, int y, t_context *ctx);
 int				on_mousemove(int x, int y, t_context *ctx);
+void			on_keydown(int key, t_context *ctx);
 void			unload(int key, t_context *ctx);
 
 #endif

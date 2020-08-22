@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_attr.c                                         :+:      :+:    :+:   */
+/*   action.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ourgot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -16,7 +16,7 @@
 #include "keys.h"
 #include "mlx.h"
 
-void	set_fractal(int key, t_context *ctx)
+void	change_fractal(int key, t_context *ctx)
 {
 	static int	id;
 	static int	last;
@@ -32,7 +32,7 @@ void	set_fractal(int key, t_context *ctx)
 	}
 }
 
-void	set_iter(int key, t_context *ctx)
+void	change_maxiter(int key, t_context *ctx)
 {
 	if (key == KEY_0)
 		ctx->fractal->maxiter = ITER_DEFAULT;
@@ -42,7 +42,7 @@ void	set_iter(int key, t_context *ctx)
 		ctx->fractal->maxiter *= RATIO_LESS;
 }
 
-void	set_pan(int key, t_context *ctx)
+void	change_pan(int key, t_context *ctx)
 {
 	if (key == ARROW_UP)
 		pan(ctx->fractal, 0, -10);
@@ -54,14 +54,14 @@ void	set_pan(int key, t_context *ctx)
 		pan(ctx->fractal, 10, 0);
 }
 
-void	set_cmap(int key, t_context *ctx)
+void	change_cmap(int key, t_context *ctx)
 {
+	static int			n;
 	static const t_cmap	cmaps[] = {
 		cmap_bernstein, cmap_sine, cmap_sepia
 	};
-	static int			n;
 
 	(void)key;
 	n = n < 2 ? n + 1 : 0;
-	ctx->fractal->cmap = cmaps[n];
+	ctx->cmap = cmaps[n];
 }

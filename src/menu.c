@@ -14,6 +14,11 @@
 #include "libft.h"
 #include "mlx.h"
 
+#define MENU_WIDTH		600
+#define MENU_HEIGHT		400
+#define MENU_BGCOLOR	0xaa000000
+#define MENU_TEXTCOLOR	0x00a0a0a0
+
 static void	draw_menu_bg(t_context *menu)
 {
 	const int	*last_pixel = menu->addr + MENU_WIDTH * MENU_HEIGHT;
@@ -32,20 +37,20 @@ static void	draw_menu_text(t_context *ctx)
 
 static void	init_menu(t_context *ctx, t_context *menu)
 {
-	menu->data = mlx_new_image(ctx->mlx, MENU_WIDTH, MENU_HEIGHT);
-	menu->addr = mlx_get_data_addr(menu->data, &menu->bpp,
+	menu->img = mlx_new_image(ctx->mlx, MENU_WIDTH, MENU_HEIGHT);
+	menu->addr = mlx_get_data_addr(menu->img, &menu->bpp,
 			&menu->linesize, &menu->endian);
 	draw_menu_bg(ctx);
 	draw_menu_text(ctx);
 }
 
-void		draw_menu(t_context *ctx)
+void		show_menu(t_context *ctx)
 {
 	static t_context	menu;
 	static const int	x = (WIN_WIDTH - MENU_WIDTH) / 2;
 	static const int	y = (WIN_WIDTH - MENU_WIDTH) / 2;
 
-	if (menu.data == NULL)
+	if (menu.img == NULL)
 		init_menu(ctx, &menu);
-	mlx_put_image_to_window(ctx->mlx, ctx->win, menu.data, x, y);
+	mlx_put_image_to_window(ctx->mlx, ctx->win, menu.img, x, y);
 }

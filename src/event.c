@@ -24,7 +24,7 @@ int		on_mousemove(int x, int y, t_context *ctx)
 		JULIA_RE - (x * JULIA_RE) / WIN_WIDTH,
 		JULIA_IM - (3 * y * JULIA_IM) / WIN_HEIGHT
 	};
-	draw_fractal(ctx);
+	draw_image(ctx);
 	return (0);
 }
 
@@ -39,31 +39,31 @@ int		on_mousedown(int button, int x, int y, t_context *ctx)
 	z = button == MOUSE_SCROLL_UP ? RATIO_MORE : RATIO_LESS;
 	ctx->fractal->maxiter += i;
 	zoom(ctx->fractal, z, x, y);
-	draw_fractal(ctx);
+	draw_image(ctx);
 	return (0);
 }
 
 void	on_keydown(int key, t_context *ctx)
 {
-	t_handler				handler;
-	static const t_handler	handlers[MAX_KEYS] = {
-		[BRACKET_LEFT] = set_fractal,
-		[BRACKET_RIGHT] = set_fractal,
-		[KEY_0] = set_iter,
-		[PLUS] = set_iter,
-		[MINUS] = set_iter,
-		[KEY_C] = set_cmap,
-		[ARROW_UP] = set_pan,
-		[ARROW_DOWN] = set_pan,
-		[ARROW_LEFT] = set_pan,
-		[ARROW_RIGHT] = set_pan,
+	t_action				action;
+	static const t_action	actions[MAX_KEYS] = {
+		[BRACKET_LEFT] = change_fractal,
+		[BRACKET_RIGHT] = change_fractal,
+		[KEY_0] = change_maxiter,
+		[MINUS] = change_maxiter,
+		[PLUS] = change_maxiter,
+		[ARROW_UP] = change_pan,
+		[ARROW_DOWN] = change_pan,
+		[ARROW_LEFT] = change_pan,
+		[ARROW_RIGHT] = change_pan,
+		[KEY_C] = change_cmap,
 		[ESC] = unload
 	};
 
-	if (key <= MAX_KEYS && (handler = handlers[key]))
+	if (key <= MAX_KEYS && (action = actions[key]))
 	{
-		(*handler)(key, ctx);
-		draw_fractal(ctx);
+		(*action)(key, ctx);
+		draw_image(ctx);
 	}
 }
 

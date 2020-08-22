@@ -36,26 +36,6 @@ static int	hsv_to_rgb(double h, double s, double v)
 	return ((int)(255 * v) << 16 | (int)(255 * p) << 8 | (int)(255 * q));
 }
 
-int			cmap_sepia(const t_fractal *fractal, t_tuple t)
-{
-	double	v;
-	double	b;
-
-	if (t.iter == 0)
-		return (0);
-	b = log(t.iter - log(log(fabs(t.sqmod)))) / log(fractal->maxiter);
-	v = 1.0 - fabs(1.0 - b);
-	if (v < 0)
-		v = 0;
-	if (b < 1)
-		return ((int)(255 * pow(v, 4)) << 16 |
-				(int)(255 * pow(v, 2.5)) << 8 |
-				(int)(255 * v));
-	return ((int)(255 * v) << 16 |
-			(int)(255 * pow(v, 1.5)) << 8 |
-			(int)(255 * pow(v, 3)));
-}
-
 int			cmap_bernstein(const t_fractal *fractal, t_tuple t)
 {
 	double	v;
@@ -89,4 +69,32 @@ int			cmap_sine(const t_fractal *fractal, t_tuple t)
 	// v = tanh(2 * (t.iter - log2(log2(t.sqmod))) / fractal->maxiter);
 	v = fabs(cos(M_PI * M_PI * v));
 	return (hsv_to_rgb(v * (360 - c) + c, 0.71, 0.79));
+}
+
+int			cmap_sepia(const t_fractal *fractal, t_tuple t)
+{
+	double	v;
+	double	b;
+
+	if (t.iter == 0)
+		return (0);
+	b = log(t.iter - log(log(fabs(t.sqmod)))) / log(fractal->maxiter);
+	v = 1.0 - fabs(1.0 - b);
+	if (v < 0)
+		v = 0;
+	if (b < 1)
+		return ((int)(255 * pow(v, 4)) << 16 |
+				(int)(255 * pow(v, 2.5)) << 8 |
+				(int)(255 * v));
+	return ((int)(255 * v) << 16 |
+			(int)(255 * pow(v, 1.5)) << 8 |
+			(int)(255 * pow(v, 3)));
+}
+
+int			cmap_ascii(const t_fractal *fractal, t_tuple t)
+{
+	static const char *sym = " .:-o=0~&IH%&#";
+
+	(void)fractal;
+	return (sym[(int)t.iter % sizeof(sym)]);
 }

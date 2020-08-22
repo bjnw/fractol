@@ -14,27 +14,8 @@
 # define FRACTOL_H
 
 # define WIN_WIDTH	1024
-# define WIN_HEIGHT	857
+# define WIN_HEIGHT	856
 # define WIN_TITLE	"fractol"
-
-# define NUM_THREADS	8
-# define SLICE_HEIGHT	WIN_HEIGHT / NUM_THREADS
-
-# define MENU_WIDTH		600
-# define MENU_HEIGHT	400
-# define MENU_BGCOLOR	0xaa000000
-# define MENU_TEXTCOLOR	0x00a0a0a0
-
-# define BAILOUT		32
-# define ITER_MIN		13
-# define ITER_MAX		2048
-# define ITER_DEFAULT	128
-
-# define JULIA_RE	-0.702693
-# define JULIA_IM	-0.384201
-
-# define RATIO_MORE	1.077777
-# define RATIO_LESS	0.927835
 
 enum {
 	MANDELBROT = 0,
@@ -43,9 +24,19 @@ enum {
 	COSINE_MANDELBROT,
 	PERPENDICULAR_MANDELBROT,
 	PERPENDICULAR_CELTIC,
-	BURNING_SHIP,
-	ASCII_MANDELBROT
+	BURNING_SHIP
 };
+
+# define ITER_DEFAULT	128
+# define ITER_MIN		13
+# define ITER_MAX		2048
+# define BAILOUT		32
+
+# define JULIA_RE	-0.702693
+# define JULIA_IM	-0.384201
+
+# define RATIO_MORE	1.077777
+# define RATIO_LESS	0.927835
 
 typedef struct	s_complex {
 	double		re;
@@ -67,43 +58,43 @@ struct			s_fractal {
 	double		dx;
 	double		dy;
 	t_complex	k;
-	int			(*cmap)(const t_fractal *, t_tuple);
 	t_tuple		(*iter)(const t_fractal *, t_complex);
 };
 
-typedef struct	s_context {
+typedef struct s_context	t_context;
+struct			s_context {
 	void		*mlx;
 	void		*win;
+	void		*img;
 	void		*addr;
-	void		*data;
 	int			bpp;
 	int			linesize;
 	int			endian;
+	int			width;
+	int			height;
 	t_fractal	*fractal;
-}				t_context;
+	void		(*plot)(t_context *, int, int, int);
+	int			(*cmap)(const t_fractal *, t_tuple);
+};
 
-typedef struct	s_args {
+typedef struct	s_arg {
 	t_context	*ctx;
-	int			from;
-	int			until;
-}				t_args;
+	int			ymin;
+	int			ymax;
+}				t_arg;
 
-typedef void	(*t_handler)(int, t_context *);
+typedef void	*(*t_worker)(void *);
+typedef void	(*t_action)(int, t_context *);
 typedef int		(*t_cmap)(const t_fractal *, t_tuple);
-typedef void	*(*t_routine)(void *);
 
 void			init_fractal(t_fractal *fractal, int id);
-void			draw_fractal(t_context *ctx);
-void			draw_ascii(t_fractal *fractal);
+void			init_mlx_ctx(t_context *ctx, t_fractal *fractal);
+void			init_ascii_ctx(t_context *ctx, t_fractal *fractal);
 
-void			draw_menu(t_context *ctx);
+void			draw_image(t_context *ctx);
+void			draw_ascii(t_context *ctx);
 
-void			pan(t_fractal *fractal, double cx, double cy);
-void			zoom(t_fractal *fractal, double zoom, double cx, double cy);
-
-int				cmap_bernstein(const t_fractal *fractal, t_tuple t);
-int				cmap_sine(const t_fractal *fractal, t_tuple t);
-int				cmap_sepia(const t_fractal *fractal, t_tuple t);
+void			show_menu(t_context *ctx);
 
 t_tuple			mandelbrot(const t_fractal *fractal, t_complex c);
 t_tuple			julia(const t_fractal *fractal, t_complex c);
@@ -113,10 +104,21 @@ t_tuple			perpendicular_mandelbrot(const t_fractal *fractal, t_complex c);
 t_tuple			perpendicular_celtic(const t_fractal *fractal, t_complex c);
 t_tuple			burning_ship(const t_fractal *fractal, t_complex c);
 
-void			set_fractal(int key, t_context *ctx);
-void			set_iter(int key, t_context *ctx);
-void			set_pan(int key, t_context *ctx);
-void			set_cmap(int key, t_context *ctx);
+void			pan(t_fractal *fractal, double cx, double cy);
+void			zoom(t_fractal *fractal, double zoom, double cx, double cy);
+
+void			plot_image(t_context *ctx, int x, int y, int color);
+void			plot_ascii(t_context *ctx, int x, int y, int color);
+
+int				cmap_bernstein(const t_fractal *fractal, t_tuple t);
+int				cmap_sine(const t_fractal *fractal, t_tuple t);
+int				cmap_sepia(const t_fractal *fractal, t_tuple t);
+int				cmap_ascii(const t_fractal *fractal, t_tuple t);
+
+void			change_fractal(int key, t_context *ctx);
+void			change_maxiter(int key, t_context *ctx);
+void			change_pan(int key, t_context *ctx);
+void			change_cmap(int key, t_context *ctx);
 
 int				on_mousedown(int button, int x, int y, t_context *ctx);
 int				on_mousemove(int x, int y, t_context *ctx);

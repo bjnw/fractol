@@ -1,7 +1,8 @@
 NAME := fractol
 BUILD_DIR := build
-SRC := main.c event.c draw.c cmap.c viewport.c set_attr.c menu.c \
-	draw_ascii.c iter_mandatory.c iter_additional.c
+SRC := main.c init.c event.c action.c menu.c draw.c cmap.c viewport.c \
+	buffalo.c burning_ship.c cosine_mandelbrot.c julia.c \
+	mandelbrot.c perpendicular_celtic.c perpendicular_mandelbrot.c
 OBJ := $(SRC:%.c=$(BUILD_DIR)/%.o)
 DEP := $(OBJ:%.o=%.d)
 
@@ -36,7 +37,7 @@ OFLAGS += -ffast-math
 CFLAGS := $(WFLAGS) $(OFLAGS) -MMD -I$(LFT_DIR)/include -I$(MLX_DIR) -Iinclude
 LFLAGS := $(LFT_LIB) $(MLX_LIB) -pthread -lm
 
-vpath %.c src
+vpath %.c src src/iter
 
 .PHONY: all clean fclean re test love debug
 

@@ -28,7 +28,8 @@ static void	show_usage(const char *msg)
 			"3 - cosine mandelbrot\n"
 			"4 - perpendicular mandelbrot\n"
 			"5 - perpendicular celtic\n"
-			"6 - burning ship\n"
+			"6 - tricorn\n"
+			"7 - burning ship\n"
 			"'a' is for ascii output\n");
 }
 

@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include <stdlib.h>
 
 #include "fractol.h"
@@ -21,8 +22,8 @@ int		on_mousemove(int x, int y, t_context *ctx)
 	if (ctx->fractal->iter != julia)
 		return (0);
 	ctx->fractal->k = (t_complex){
-		JULIA_RE - (x * JULIA_RE) / WIN_WIDTH,
-		JULIA_IM - (3 * y * JULIA_IM) / WIN_HEIGHT
+		JULIA_RE - (M_PI_2 * x * JULIA_RE) / WIN_WIDTH,
+		JULIA_IM - (M_PI * y * JULIA_IM) / WIN_HEIGHT
 	};
 	draw_image(ctx);
 	return (0);
@@ -35,9 +36,11 @@ int		on_mousedown(int button, int x, int y, t_context *ctx)
 
 	if (button != MOUSE_SCROLL_UP && button != MOUSE_SCROLL_DOWN)
 		return (0);
-	i = button == MOUSE_SCROLL_UP ? 1 : -1;
+	i = button == MOUSE_SCROLL_UP ? ITER_DELTA : -ITER_DELTA;
 	z = button == MOUSE_SCROLL_UP ? RATIO_MORE : RATIO_LESS;
-	ctx->fractal->maxiter += i;
+	if (ctx->fractal->maxiter < ITER_MAX ||
+			ctx->fractal->maxiter > ITER_MIN)
+		ctx->fractal->maxiter += i;
 	zoom(ctx->fractal, z, x, y);
 	draw_image(ctx);
 	return (0);

@@ -29,6 +29,7 @@ void	change_fractal(int key, t_context *ctx)
 	{
 		last = id;
 		init_fractal(ctx->fractal, id);
+		init_dxdy(ctx, ctx->fractal);
 	}
 }
 

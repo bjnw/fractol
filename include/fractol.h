@@ -24,12 +24,14 @@ enum {
 	COSINE_MANDELBROT,
 	PERPENDICULAR_MANDELBROT,
 	PERPENDICULAR_CELTIC,
+	TRICORN,
 	BURNING_SHIP
 };
 
 # define ITER_DEFAULT	128
 # define ITER_MIN		13
 # define ITER_MAX		2048
+# define ITER_DELTA		2
 # define BAILOUT		32
 
 # define JULIA_RE	-0.702693
@@ -88,13 +90,12 @@ typedef void	(*t_action)(int, t_context *);
 typedef int		(*t_cmap)(const t_fractal *, t_tuple);
 
 void			init_fractal(t_fractal *fractal, int id);
+void			init_dxdy(t_context *ctx, t_fractal *fractal);
 void			init_mlx_ctx(t_context *ctx, t_fractal *fractal);
 void			init_ascii_ctx(t_context *ctx, t_fractal *fractal);
 
 void			draw_image(t_context *ctx);
 void			draw_ascii(t_context *ctx);
-
-void			show_menu(t_context *ctx);
 
 t_tuple			mandelbrot(const t_fractal *fractal, t_complex c);
 t_tuple			julia(const t_fractal *fractal, t_complex c);
@@ -102,6 +103,7 @@ t_tuple			buffalo(const t_fractal *fractal, t_complex c);
 t_tuple			cosine_mandelbrot(const t_fractal *fractal, t_complex c);
 t_tuple			perpendicular_mandelbrot(const t_fractal *fractal, t_complex c);
 t_tuple			perpendicular_celtic(const t_fractal *fractal, t_complex c);
+t_tuple			tricorn(const t_fractal *fractal, t_complex c);
 t_tuple			burning_ship(const t_fractal *fractal, t_complex c);
 
 void			pan(t_fractal *fractal, double cx, double cy);

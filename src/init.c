@@ -38,14 +38,21 @@ void		init_fractal(t_fractal *fractal, int id)
 		{0, -1.6, 1.1, -1.2, 1.2, 0, 0, {0, 0}, cosine_mandelbrot},
 		{0, -2.4, 1.6, -1.8, 1.8, 0, 0, {0, 0}, perpendicular_mandelbrot},
 		{0, -2.5, 1.0, -1.8, 1.8, 0, 0, {0, 0}, perpendicular_celtic},
-		{0, -2.6, 1.4, -1.0, 2.3, 0, 0, {0, 0}, burning_ship}
+		{0, -2.6, 2.0, -2.0, 2.0, 0, 0, {0, 0}, tricorn},
+		{0, -2.6, 1.6, -1.1, 2.2, 0, 0, {0, 0}, burning_ship}
 	};
 
 	*fractal = attrs[id];
 	fractal->maxiter = ITER_DEFAULT;
 }
 
-void	init_mlx_ctx(t_context *ctx, t_fractal *fractal)
+void		init_dxdy(t_context *ctx, t_fractal *fractal)
+{
+	fractal->dx = (fractal->xmax - fractal->xmin) / (ctx->width - 1);
+	fractal->dy = (fractal->ymax - fractal->ymin) / (ctx->height - 1);
+}
+
+void		init_mlx_ctx(t_context *ctx, t_fractal *fractal)
 {
 	ctx->mlx = mlx_init();
 	if (!ctx->mlx)
@@ -65,11 +72,10 @@ void	init_mlx_ctx(t_context *ctx, t_fractal *fractal)
 	ctx->plot = plot_image;
 	ctx->cmap = fractal->iter == cosine_mandelbrot ?
 		cmap_sepia : cmap_bernstein;
-	fractal->dx = (fractal->xmax - fractal->xmin) / (WIN_WIDTH - 1);
-	fractal->dy = (fractal->ymax - fractal->ymin) / (WIN_HEIGHT - 1);
+	init_dxdy(ctx, fractal);
 }
 
-void	init_ascii_ctx(t_context *ctx, t_fractal *fractal)
+void		init_ascii_ctx(t_context *ctx, t_fractal *fractal)
 {
 	const int		width = get_termwidth();
 	const int		height = width / RATIO_ASCII;
@@ -80,6 +86,5 @@ void	init_ascii_ctx(t_context *ctx, t_fractal *fractal)
 	ctx->height = height;
 	ctx->plot = plot_ascii;
 	ctx->cmap = cmap_ascii;
-	fractal->dx = (fractal->xmax - fractal->xmin) / (width - 1);
-	fractal->dy = (fractal->ymax - fractal->ymin) / (height - 1);
+	init_dxdy(ctx, fractal);
 }

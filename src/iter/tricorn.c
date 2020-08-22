@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cosine_mandelbrot.c                                :+:      :+:    :+:   */
+/*   tricorn.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ourgot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,21 +14,25 @@
 
 #include "fractol.h"
 
-t_tuple	cosine_mandelbrot(const t_fractal *fractal, t_complex c)
+t_tuple	tricorn(const t_fractal *fractal, t_complex c)
 {
 	t_complex	z;
+	double		zrsq;
+	double		zisq;
 	int			n;
 
 	z = (t_complex){0, 0};
 	n = 0;
 	while (n < fractal->maxiter)
 	{
+		zrsq = z.re * z.re;
+		zisq = z.im * z.im;
 		z = (t_complex){
-			M_PI * cos(z.re) * cosh(z.im) + c.re,
-			M_PI * -sin(z.re) * sinh(z.im) + c.im
+			zrsq - zisq + c.re,
+			-2.0 * z.re * z.im + c.im
 		};
-		if (fabs(z.im) >= BAILOUT)
-			return ((t_tuple){n, z.im});
+		if (zrsq + zisq >= BAILOUT)
+			return ((t_tuple){n, zrsq + zisq});
 		n++;
 	}
 	return ((t_tuple){0, 0});

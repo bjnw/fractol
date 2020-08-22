@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "stdlib.h"
-#include "unistd.h"
+#include <stdlib.h>
+#include <unistd.h>
 
 #include "fractol.h"
 #include "libft.h"

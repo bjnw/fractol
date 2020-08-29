@@ -40,17 +40,16 @@ static void	parse_arg(int argc, const char **argv,
 		show_usage("error: not enough arguments");
 	if (ft_strlen(argv[1]) > 2)
 		show_usage("error: invalid fractal id");
-	*ascii = false;
-	if (ft_strlen(argv[1]) == 2)
-	{
-		if (argv[1][1] == 'a')
-			*ascii = true;
-		else
-			show_usage("error: invalid fractal id");
-	}
 	*id = *argv[1] & ~060;
 	if (*id < MANDELBROT || *id > BURNING_SHIP)
 		show_usage("error: invalid fractal id");
+	*ascii = false;
+	if (ft_strlen(argv[1]) == 2)
+	{
+		if (argv[1][1] != 'a')
+			show_usage("error: invalid ascii option");
+		*ascii = true;
+	}
 }
 
 int			main(int argc, const char **argv)

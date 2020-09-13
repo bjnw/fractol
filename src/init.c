@@ -34,12 +34,13 @@ void		init_fractal(t_fractal *fractal, int id)
 	static const t_fractal attrs[] = {
 		{0, -2.5, 1.0, -1.5, 1.5, 0, 0, {0, 0}, mandelbrot},
 		{0, -2.2, 2.2, -1.8, 1.8, 0, 0, {JULIA_RE, JULIA_IM}, julia},
-		{0, -2.5, 1.0, -0.7, 2.1, 0, 0, {0, 0}, buffalo},
-		{0, -1.6, 1.1, -1.2, 1.2, 0, 0, {0, 0}, cosine_mandelbrot},
-		{0, -2.4, 1.6, -1.8, 1.8, 0, 0, {0, 0}, perpendicular_mandelbrot},
-		{0, -2.5, 1.0, -1.8, 1.8, 0, 0, {0, 0}, perpendicular_celtic},
+		{0, -2.5, 1.0, -0.75, 2.05, 0, 0, {0, 0}, buffalo},
+		{0, -2.6, 1.6, -1.05, 2.25, 0, 0, {0, 0}, burning_ship},
 		{0, -2.6, 2.0, -2.0, 2.0, 0, 0, {0, 0}, tricorn},
-		{0, -2.6, 1.6, -1.1, 2.2, 0, 0, {0, 0}, burning_ship}
+		{0, -2.5, 1.0, -1.8, 1.8, 0, 0, {0, 0}, perpendicular_celtic},
+		{0, -2.55, 1.45, -1.8, 1.8, 0, 0, {0, 0}, perpendicular_mandelbrot},
+		{0, -1.6, 1.1, -1.2, 1.2, 0, 0, {0, 0}, cosine_mandelbrot},
+		{0, -3.23, 2.6, -2.4, 2.4, 0, 0, {0, 0}, sine_mandelbrot},
 	};
 
 	*fractal = attrs[id];
@@ -70,8 +71,7 @@ void		init_mlx_ctx(t_context *ctx, t_fractal *fractal)
 	ctx->width = WIN_WIDTH;
 	ctx->height = WIN_HEIGHT;
 	ctx->plot = plot_image;
-	ctx->cmap = fractal->iter == cosine_mandelbrot ?
-		cmap_sepia : cmap_bernstein;
+	ctx->cmap = cmap_bernstein;
 	init_dxdy(ctx, fractal);
 }
 

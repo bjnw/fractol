@@ -21,34 +21,41 @@ enum {
 	MANDELBROT = 0,
 	JULIA,
 	BUFFALO,
-	COSINE_MANDELBROT,
-	PERPENDICULAR_MANDELBROT,
-	PERPENDICULAR_CELTIC,
+	BURNING_SHIP,
 	TRICORN,
-	BURNING_SHIP
+	PERPENDICULAR_CELTIC,
+	PERPENDICULAR_MANDELBROT,
+	COSINE_MANDELBROT,
+	SINE_MANDELBROT,
 };
 
 # define ITER_DEFAULT	128
-# define ITER_MIN		13
+# define ITER_MIN		16
 # define ITER_MAX		2048
-# define ITER_DELTA		2
+# define ITER_DELTA		1
 # define BAILOUT		32
 
 # define JULIA_RE	-0.702693
 # define JULIA_IM	-0.384201
 
-# define RATIO_MORE	1.077777
-# define RATIO_LESS	0.927835
+// # define RATIO_MORE	1.077777
+// # define RATIO_LESS	0.927835
+# define RATIO_MORE	1.066666
+# define RATIO_LESS	0.937500
 
 typedef struct	s_complex {
 	double		re;
 	double		im;
 }				t_complex;
 
+# define NULL_COMPLEX	((t_complex){0, 0})
+
 typedef struct	s_tuple {
 	double		iter;
 	double		sqmod;
 }				t_tuple;
+
+# define NULL_TUPLE	((t_tuple){0, 0})
 
 typedef struct s_fractal	t_fractal;
 struct			s_fractal {
@@ -100,11 +107,12 @@ void			draw_ascii(t_context *ctx);
 t_tuple			mandelbrot(const t_fractal *fractal, t_complex c);
 t_tuple			julia(const t_fractal *fractal, t_complex c);
 t_tuple			buffalo(const t_fractal *fractal, t_complex c);
-t_tuple			cosine_mandelbrot(const t_fractal *fractal, t_complex c);
-t_tuple			perpendicular_mandelbrot(const t_fractal *fractal, t_complex c);
-t_tuple			perpendicular_celtic(const t_fractal *fractal, t_complex c);
-t_tuple			tricorn(const t_fractal *fractal, t_complex c);
 t_tuple			burning_ship(const t_fractal *fractal, t_complex c);
+t_tuple			tricorn(const t_fractal *fractal, t_complex c);
+t_tuple			perpendicular_celtic(const t_fractal *fractal, t_complex c);
+t_tuple			perpendicular_mandelbrot(const t_fractal *fractal, t_complex c);
+t_tuple			cosine_mandelbrot(const t_fractal *fractal, t_complex c);
+t_tuple			sine_mandelbrot(const t_fractal *fractal, t_complex c);
 
 void			pan(t_fractal *fractal, double cx, double cy);
 void			zoom(t_fractal *fractal, double zoom, double cx, double cy);
@@ -115,6 +123,7 @@ void			plot_ascii(t_context *ctx, int x, int y, int color);
 int				cmap_bernstein(const t_fractal *fractal, t_tuple t);
 int				cmap_sine(const t_fractal *fractal, t_tuple t);
 int				cmap_sepia(const t_fractal *fractal, t_tuple t);
+int				cmap_bw(const t_fractal *fractal, t_tuple t);
 int				cmap_ascii(const t_fractal *fractal, t_tuple t);
 
 void			change_fractal(int key, t_context *ctx);

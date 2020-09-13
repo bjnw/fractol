@@ -23,7 +23,7 @@ void	change_fractal(int key, t_context *ctx)
 
 	if (key == BRACKET_LEFT && id > MANDELBROT)
 		id--;
-	else if (key == BRACKET_RIGHT && id < BURNING_SHIP)
+	else if (key == BRACKET_RIGHT && id < SINE_MANDELBROT)
 		id++;
 	if (last != id)
 	{
@@ -59,10 +59,10 @@ void	change_cmap(int key, t_context *ctx)
 {
 	static int			n;
 	static const t_cmap	cmaps[] = {
-		cmap_bernstein, cmap_sine, cmap_sepia
+		cmap_bernstein, cmap_sine, cmap_sepia, cmap_bw
 	};
 
 	(void)key;
-	n = n < 2 ? n + 1 : 0;
+	n = n < 3 ? n + 1 : 0;
 	ctx->cmap = cmaps[n];
 }

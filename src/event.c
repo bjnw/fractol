@@ -31,17 +31,20 @@ int		on_mousemove(int x, int y, t_context *ctx)
 
 int		on_mousedown(int button, int x, int y, t_context *ctx)
 {
-	int		i;
-	double	z;
-
-	if (button != MOUSE_SCROLL_UP && button != MOUSE_SCROLL_DOWN)
+	if (button == MOUSE_SCROLL_UP)
+	{
+		if (ctx->fractal->maxiter < ITER_MAX)
+			ctx->fractal->maxiter += ITER_DELTA;
+		zoom(ctx->fractal, RATIO_MORE, x, y);
+	}
+	else if (button == MOUSE_SCROLL_DOWN)
+	{
+		if (ctx->fractal->maxiter > ITER_MIN)
+			ctx->fractal->maxiter -= ITER_DELTA;
+		zoom(ctx->fractal, RATIO_LESS, x, y);
+	}
+	else
 		return (0);
-	i = button == MOUSE_SCROLL_UP ? ITER_DELTA : -ITER_DELTA;
-	z = button == MOUSE_SCROLL_UP ? RATIO_MORE : RATIO_LESS;
-	if (ctx->fractal->maxiter < ITER_MAX ||
-			ctx->fractal->maxiter > ITER_MIN)
-		ctx->fractal->maxiter += i;
-	zoom(ctx->fractal, z, x, y);
 	draw_image(ctx);
 	return (0);
 }

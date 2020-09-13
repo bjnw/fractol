@@ -25,12 +25,13 @@ static void	show_usage(const char *msg)
 			"0 - mandelbrot\n"
 			"1 - julia\n"
 			"2 - buffalo\n"
-			"3 - cosine mandelbrot\n"
-			"4 - perpendicular mandelbrot\n"
+			"3 - burning ship\n"
+			"4 - tricorn\n"
 			"5 - perpendicular celtic\n"
-			"6 - tricorn\n"
-			"7 - burning ship\n"
-			"'a' is for ascii output\n");
+			"6 - perpendicular mandelbrot\n"
+			"7 - cosine mandelbrot\n"
+			"8 - sine mandelbrot\n"
+			"('a' is for ascii output)\n");
 }
 
 static void	parse_arg(int argc, const char **argv,
@@ -41,7 +42,7 @@ static void	parse_arg(int argc, const char **argv,
 	if (ft_strlen(argv[1]) > 2)
 		show_usage("error: invalid fractal id");
 	*id = *argv[1] & ~060;
-	if (*id < MANDELBROT || *id > BURNING_SHIP)
+	if (*id < MANDELBROT || *id > SINE_MANDELBROT)
 		show_usage("error: invalid fractal id");
 	*ascii = false;
 	if (ft_strlen(argv[1]) == 2)

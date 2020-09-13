@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mandelbrot.c                                       :+:      :+:    :+:   */
+/*   sine_mandelbrot.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ourgot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,7 +14,7 @@
 
 #include "fractol.h"
 
-t_tuple	mandelbrot(const t_fractal *fractal, t_complex c)
+t_tuple	sine_mandelbrot(const t_fractal *fractal, t_complex c)
 {
 	t_complex	z;
 	double		zrsq;
@@ -28,11 +28,15 @@ t_tuple	mandelbrot(const t_fractal *fractal, t_complex c)
 		zrsq = z.re * z.re;
 		zisq = z.im * z.im;
 		z = (t_complex){
-			zrsq - zisq + c.re,
-			2.0 * z.re * z.im + c.im
+			zrsq - zisq,
+			2.0 * z.re * z.im
 		};
-		if (zrsq + zisq >= BAILOUT)
-			return ((t_tuple){n, zrsq + zisq});
+		z = (t_complex){
+			sin(z.re) * cosh(z.im) + c.re,
+			cos(z.re) * sinh(z.im) + c.im
+		};
+		if (fabs(z.re) >= BAILOUT)
+			return ((t_tuple){n, z.re});
 		n++;
 	}
 	return (NULL_TUPLE);

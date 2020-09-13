@@ -1,7 +1,7 @@
 NAME := fractol
 BUILD_DIR := build
 SRC := main.c init.c event.c action.c draw.c cmap.c viewport.c \
-	buffalo.c burning_ship.c cosine_mandelbrot.c julia.c \
+	buffalo.c burning_ship.c cosine_mandelbrot.c sine_mandelbrot.c julia.c \
 	mandelbrot.c perpendicular_celtic.c tricorn.c perpendicular_mandelbrot.c
 OBJ := $(SRC:%.c=$(BUILD_DIR)/%.o)
 DEP := $(OBJ:%.o=%.d)

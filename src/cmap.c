@@ -98,6 +98,20 @@ int			cmap_sepia(const t_fractal *fractal, t_tuple t)
 	return (r << 16 | g << 8 | b);
 }
 
+int			cmap_bw(const t_fractal *fractal, t_tuple t)
+{
+	double	v;
+	int		b;
+	int		c;
+
+	if (t.iter == 0)
+		return (0);
+	v = 1.6 * tanh(t.iter / fractal->maxiter);
+	c = ft_rand() & 3;
+	b = v * (255 - c) + c;
+	return (b * 0x00010101);
+}
+
 int			cmap_ascii(const t_fractal *fractal, t_tuple t)
 {
 	static const char *sym = " .:-o=0~&IH%&#";

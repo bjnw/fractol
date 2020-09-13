@@ -36,5 +36,5 @@ t_tuple	julia(const t_fractal *fractal, t_complex c)
 			return ((t_tuple){n, zrsq + zisq});
 		n++;
 	}
-	return ((t_tuple){0, 0});
+	return (NULL_TUPLE);
 }

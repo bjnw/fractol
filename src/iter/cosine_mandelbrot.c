@@ -19,7 +19,7 @@ t_tuple	cosine_mandelbrot(const t_fractal *fractal, t_complex c)
 	t_complex	z;
 	int			n;
 
-	z = (t_complex){0, 0};
+	z = NULL_COMPLEX;
 	n = 0;
 	while (n < fractal->maxiter)
 	{
@@ -31,5 +31,5 @@ t_tuple	cosine_mandelbrot(const t_fractal *fractal, t_complex c)
 			return ((t_tuple){n, z.im});
 		n++;
 	}
-	return ((t_tuple){0, 0});
+	return (NULL_TUPLE);
 }
